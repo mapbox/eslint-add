@@ -10,6 +10,9 @@
     "eslint",
     "add"
   ],
+  "bin": {
+    "eslint-add": "eslint-add"
+  },
   "author": "Tom MacWright",
   "license": "ISC",
   "dependencies": {
