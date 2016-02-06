@@ -1,0 +1,5 @@
+#!/bin/sh
+
+npm install -save-dev eslint eslint-config-unstyled
+echo '{"extends":"eslint-config-unstyled"}' > .eslintrc
+node package_add.js $@

@@ -1,0 +1,22 @@
+{
+  "name": "eslint-add",
+  "version": "1.0.0",
+  "description": "add eslint fast",
+  "main": "index.js",
+  "scripts": {
+    "test": "eslint ."
+  },
+  "keywords": [
+    "eslint",
+    "add"
+  ],
+  "author": "Tom MacWright",
+  "license": "ISC",
+  "dependencies": {
+    "prompt": "^0.2.14"
+  },
+  "devDependencies": {
+    "eslint": "^1.10.3",
+    "eslint-config-unstyled": "^1.1.0"
+  }
+}
