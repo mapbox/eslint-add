@@ -1,6 +1,41 @@
-#!/bin/sh
+#!/usr/bin/env node
 
-npm install -save-dev eslint eslint-config-unstyled
-echo '{"extends":"eslint-config-unstyled"}' > .eslintrc
-node package_add.js $@
-git add .eslintrc package.json
+var fs = require('fs');
+var exec = require('child_process').exec;
+var targets = process.argv.slice(2).join(' ');
+
+if (targets === '') {
+  throw new Error('usage: eslint-add [SOURCE TARGETS, like src/ or index.js]')
+}
+
+var eslintrc = {
+  extends: "eslint-config-unstyled"
+};
+
+fs.writeFileSync('.eslintrc', JSON.stringify(eslintrc, null, 2));
+
+var pkg = JSON.parse(fs.readFileSync('package.json'));
+if (!pkg.scripts) {  pkg.scripts = {}; }
+if (!pkg.devDependencies) {  pkg.devDependencies = {}; }
+var existingTest = pkg.scripts.test || '';
+var eslintCommand = 'eslint ' + targets;
+if (existingTest === 'echo "Error: no test specified" && exit 1') {
+  existingTest = '';
+}
+var newTest = existingTest.length ?
+  (eslintCommand + ' && ' + existingTest) :
+  eslintCommand;
+
+pkg.devDependencies.eslint = '~1.00.0';
+pkg.devDependencies['eslint-config-unstyled'] = '^1.1.0';
+pkg.scripts.test = newTest;
+
+fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2));
+
+exec('git add package.json .eslintrc && npm install', function (err, stdout, stderr) {
+  if (err) {
+    console.error(err);
+    return;
+  }
+  console.log(stdout);
+});

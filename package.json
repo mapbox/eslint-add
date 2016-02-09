@@ -15,9 +15,7 @@
   },
   "author": "Tom MacWright",
   "license": "ISC",
-  "dependencies": {
-    "prompt": "^0.2.14"
-  },
+  "dependencies": {},
   "devDependencies": {
     "eslint": "^1.10.3",
     "eslint-config-unstyled": "^1.1.0"
