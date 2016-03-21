@@ -8,13 +8,19 @@ if (targets === '') {
   throw new Error('usage: eslint-add [SOURCE TARGETS, like src/ or index.js]')
 }
 
+var pkg = JSON.parse(fs.readFileSync('package.json'));
+
+if (pkg.devDependencies.eslint) {
+  console.log('eslint was already present, no changes were made.');
+  process.exit(0);
+}
+
 var eslintrc = {
   extends: "eslint-config-unstyled"
 };
 
 fs.writeFileSync('.eslintrc', JSON.stringify(eslintrc, null, 2));
 
-var pkg = JSON.parse(fs.readFileSync('package.json'));
 if (!pkg.scripts) {  pkg.scripts = {}; }
 if (!pkg.devDependencies) {  pkg.devDependencies = {}; }
 var existingTest = pkg.scripts.test || '';
